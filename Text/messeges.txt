@@ -1,0 +1,16 @@
+Mozaina Rashid,Hovac Paic,6214532
+Hira Rahman,Iman Sohail,65202
+Aiman Qizil,Umer Sohail,3232
+Jamima Khan,Usama Yousaf,416
+Awais Baloch,Zain Abid,2153
+Ammar Nadeem,Javaria Amin,96341
+Muhammad Ahmed,Uzair Sadiq,751265
+Junaid Karim,Fareen Nadeem,8123
+Zainab Rehan,Sadiq Javad,9544522
+Zaid Ali,Muhammad Shan,95412
+Maham Amir,Awais Baloch,65411
+Raees Ahmed,Adan Israr,1254
+Usama Yousaf,Muhammad Ahmed,54231
+Uzair Sadiq,Iman Sohail,5121
+Mozaina Rashid,Iman Sohail,541121
+Hira Rahman,Javaria Amin,95412
