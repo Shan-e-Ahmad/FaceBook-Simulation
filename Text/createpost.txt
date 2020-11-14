@@ -1,0 +1,12 @@
+12345,1234,public
+12346,1243,custom
+12347,1250,private
+12348,1255,public
+12349,1240,public
+12350,1237,onlyme
+12351,1254,close friends
+12352,1260,friends
+12358,1247,custom
+1262,1241,friends
+1263,1235,friends
+1265,1238,public
