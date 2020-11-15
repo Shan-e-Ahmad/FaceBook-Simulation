@@ -77,7 +77,11 @@ adminid int FOREIGN KEY REFERENCES [user](userid),
 name varchar(100),
 description nvarchar(100)
 )
-
+create Table FriendRequest(
+requestid int IDENTITY(1,1) not null PRIMARY KEY,
+senderid int FOREIGN KEY REFERENCES [user](userid),
+recvrid int FOREIGN KEY REFERENCES [user](userid),
+)
 
 
 go
@@ -114,6 +118,9 @@ go
 declare  @out int
 exec Usersignup 1, 'shan', 'doublecheck1@gmail.com', 'pass', '2000-01-17', 'M', @out OUT
 Select @out
+declare  @out1 int
+exec Usersignup 2, 'han', 'dolecheck1@gmail.com', 'pass', '2000-01-17', 'M', @out1 OUT
+Select @out1
 go
 
 
@@ -373,3 +380,79 @@ declare  @out int
 exec SharePost 1,1, @out OUT
 Select @out
 go
+create Procedure SendFriendRequest
+@senderid int,
+@recvrid int,
+@output int OUTPUT
+As
+Begin
+
+if exists (select * From [user] where [user].userid=@senderid)
+Begin
+if exists (select * From [user] where [user].userid=@recvrid )
+Begin
+if exists (select * From [user] where @senderid!=@recvrid )
+Begin
+if exists (select * From friends where (friends.userid =@senderid and friends.FriendID = @recvrid) or (friends.userid =@recvrid and friends.FriendID = @senderid))
+begin
+set @output= -5 --already friends
+return
+end
+else
+if not exists (select * From FriendRequest where (FriendRequest.senderid=@senderid and FriendRequest.recvrid = @recvrid) or (FriendRequest.senderid=@recvrid and FriendRequest.recvrid = @senderid) )
+begin
+Insert into FriendRequest values (@senderid, @recvrid)
+set @output= 1 --request sent
+end
+else
+set @output= -6 --request already sent
+end
+else
+set @output= -4 --request cannot be sent to ownself
+end
+else 
+set @output= -3 --reciever does not exists
+return
+End
+else
+set @output= -2 --sender does not exists
+return
+End
+
+declare  @out int
+execute SendFriendRequest  2, 1, @out OUT
+Select @out
+select * from FriendRequest
+go
+
+
+create Procedure AcceptFriendRequest
+@senderid int,
+@recvrid int,
+@output int OUTPUT
+As
+Begin
+
+if exists (select * From FriendRequest where FriendRequest.senderid=@senderid)
+Begin
+if exists (select * From FriendRequest where FriendRequest.recvrid=@recvrid )
+Begin
+Insert into friends values (@senderid, @recvrid)
+delete from FriendRequest where senderid=@senderid and recvrid=@recvrid
+set @output= 1 --request accepted
+end
+else 
+set @output= -3 --request has not been received
+return
+End
+else
+set @output= -2 --request has not been sent or already friends
+return
+End
+
+declare  @out int
+execute AcceptFriendRequest  2, 1, @out OUT
+Select @out
+go
+
+select * from friends
