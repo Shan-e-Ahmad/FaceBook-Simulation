@@ -274,3 +274,102 @@ return
 End
 
 go
+
+go
+create Procedure CommentonPost
+@userid int ,
+@postid int,
+@text nvarchar(500),
+@output int OUTPUT
+As
+Begin
+if exists (select * From [user] where [user].userid=@userid)
+Begin
+if exists (select * From Post where Post.postid=@postid)
+Begin
+Insert into Comment values (@userid, @postid,@text)
+set @output = 1 
+End
+else set @output = -3 
+return
+End
+set @output= -2 
+return
+End
+
+go
+declare  @out int
+exec CommentonPost 1,1,'Comment 1', @out OUT
+Select @out
+go
+
+
+
+
+
+go
+create Procedure Like_Post
+@userid int ,
+@postid int,
+@output int OUTPUT
+As
+Begin
+if exists (select * From [user] where [user].userid=@userid)
+Begin
+if exists (select * From Post where Post.postid=@postid)
+Begin
+if exists (select * From Likepost where Likepost.postid =@postid)
+Begin
+set @output = -1 
+return
+End
+
+else
+Begin
+Insert into Likepost values (@userid, @postid)
+set @output = 1 
+End
+End
+else set @output = -3 
+return
+End
+else
+set @output= -2 
+return
+End
+
+go
+declare  @out int
+exec Like_Post 1,1, @out OUT
+Select @out
+go
+
+
+
+
+go
+create Procedure SharePost
+@userid int ,
+@postid int,
+@output int OUTPUT
+As
+Begin
+if exists (select * From [user] where [user].userid=@userid)
+Begin
+if exists (select * From Post where Post.postid=@postid)
+Begin
+Insert into Share values (@userid, @postid)
+set @output = 1 
+End
+else set @output = -3 
+return
+End
+set @output= -2 
+return
+End
+
+go
+declare  @out int
+exec SharePost 1,1, @out OUT
+Select @out
+go
