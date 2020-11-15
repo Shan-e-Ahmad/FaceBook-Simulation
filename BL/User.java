@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 public class User {
 
         private Long id;
@@ -86,8 +86,10 @@ public class User {
 
 
 
-        public void setLikedPosts(Set<Posts> likedPosts) {
+        public ArrayList<User> setLikedPosts(Posts pid) {
             this.likedPosts = likedPosts;
+            pid.likeCount++;
+            return null;
         }
 
         @Override
