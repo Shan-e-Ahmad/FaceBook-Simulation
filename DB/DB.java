@@ -8,10 +8,7 @@ import java.sql.SQLException;
 public class DB implements interfaces {
     Connection conn;
 
-    @Override
-    public void print() {
-
-    }
+ 
 
     public DB() {
         String url = "jdbc:sqlserver://DESKTOP-2TIF5O4\\sqlexpress;databaseName=facebook";
