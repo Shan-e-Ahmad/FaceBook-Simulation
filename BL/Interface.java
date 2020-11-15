@@ -1,8 +1,9 @@
 package Test2;
-
+import java.sql.Connection;
+import java.util.ArrayList;
 interface Interfaces {
 
-
+Connection getConnection();
         public void updateStatus();
         public boolean equals(Object o);
         public int hashCode();
