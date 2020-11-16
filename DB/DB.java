@@ -73,3 +73,25 @@ public void share(String userid, String postid) {
         }
 
 catchup
+boolean sendMessage(String sender, String reciever, String Message) {
+		try {
+			 Connection conn = getConnection();
+				
+			 CallableStatement cstmt = conn.prepareCall("{ call DirectMesage (?,?,?,?)}");
+			 cstmt.setString(1, sender);
+			 cstmt.setString(2, reciever);
+			 cstmt.setString(3, Message);
+			 cstmt.registerOutParameter(4, java.sql.Types.INTEGER);
+			 
+				
+			 boolean r=cstmt.execute();
+			 return r;
+				
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
