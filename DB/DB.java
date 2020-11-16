@@ -2,13 +2,22 @@ package database;
 
 import com.sun.jdi.connect.spi.Connection;
 
+import java.sql.CallableStatement;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.sql.PreparedStatement;
+import java.sql.DatabaseMetaData;
+import  java.sql.ResultSet;
+import java.util.*;
 
-public class DB implements interfaces {
+public class DB implements interface{
     Connection conn;
 
- 
+    @Override
+    public void print() {
+
+    }
 
     public DB() {
         String url = "jdbc:sqlserver://DESKTOP-2TIF5O4\\sqlexpress;databaseName=facebook";
@@ -21,5 +30,46 @@ public class DB implements interfaces {
             System.out.println("Not connected");
             e.printStackTrace();
         }
-    }
-}
+        
+        }
+@Override
+public void like(Post p, String User) {
+        try {
+        Connection conn = getConnection();
+        CallableStatement cstmt = conn.prepareCall("{ call LikeATweet (?,?,?)}");
+
+        String i = Integer.toString(p.postid);
+        cstmt.setString(1, User);
+        cstmt.setString(2,i);
+        cstmt.registerOutParameter(3, java.sql.Types.INTEGER);
+        System.out.println("go");
+        cstmt.executeUpdate();
+        int result = cstmt.getInt(3);
+        System.out.println(result);
+        }
+        catch(SQLException e){
+        e.printStackTrace();
+        }
+        }
+
+
+@Override
+public void share(String userid, String postid) {
+        try {
+        Connection conn = getConnection();
+        CallableStatement cstmt = conn.prepareCall("{ call doReTweet (?,?,?)}");
+
+        cstmt.setString(1, userid);
+        cstmt.setString(2, postid);
+        cstmt.registerOutParameter(3, java.sql.Types.INTEGER);
+        System.out.println("yo");
+        cstmt.executeUpdate();
+        int result = cstmt.getInt(3);
+        System.out.println(result);
+        }
+        catch(SQLException e){
+        e.printStackTrace();
+        }
+        }
+
+catchup
